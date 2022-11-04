@@ -6,13 +6,21 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     curl_setopt_array($cURL, [
         CURLOPT_URL => $_POST['url'],
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HTTPHEADER => ["Connection: keep-alive"],
+        // CURLOPT_HTTPHEADER => ["Connection: keep-alive"],
     ]);
     $cData = curl_exec($cURL);
     curl_close($cURL);
     $title = explode('</title>', $cData)[0];
-    $title = explode('<title', $title)[1];
-    $title = explode('>', $title)[1];
+    if(isset(explode('<title', $title)[1])){
+	    $title = explode('<title', $title)[1];
+	    if(isset(explode('>', $title)[1])){
+		    $title = explode('>', $title)[1];
+	    }else{
+		    $title = '';
+	    }
+    }else{
+	    $title = '';
+    }
     $data=[];
     $data['title']=$title;
     $url = explode('/',$_POST['url']);
@@ -20,8 +28,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
 
     $conn = new mysqli("localhost","pu","url","zero");
 
-	$result = $conn->query('SELECT id from vosco where url = "'.$_POST['url'].'"');
-	if(!$result->num_rows && filter_var($_POST['url'], FILTER_VALIDATE_URL)){
+	$result = $conn->query('SELECT id from vosco where url = "'.trim($_POST['url']).'"');
+	if(!$result->num_rows || filter_var($_POST['url'], FILTER_VALIDATE_URL)){
 		$result = $conn->query('INSERT INTO `vosco`(`url`, `title`, `icon`) VALUES  ("'.$_POST['url'].'","'.$data['title'].'","'.$data['icon'].'")');
 	}
 	echo json_encode($data);
