@@ -48,10 +48,10 @@
 			<?php if ($result->num_rows): ?>
 				<?php while ($row=$result->fetch_assoc()): ?>
 					<tr>
-						<th><?=$row['url']?></th>
-						<th><?=$row['title']?></th>
-						<th><img src="<?=$row['icon']?>"> </th>
-						<th><a href="del.php?id=<?=$row['id']?>">Delete</a></th>
+						<td><?=$row['url']?></td>
+						<td><?=$row['title']?></td>
+						<td><img src="<?=$row['icon']?>"> </td>
+						<td><a href="del.php?id=<?=$row['id']?>">Delete</a></td>
 					</tr>
 						
 				<?php endwhile ?>	
