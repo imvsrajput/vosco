@@ -41,6 +41,7 @@
 				<th>Url</th>
 				<th>title</th>
 				<th>icon</th>
+				<th>Action</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,9 +51,10 @@
 						<th><?=$row['url']?></th>
 						<th><?=$row['title']?></th>
 						<th><img src="<?=$row['icon']?>"> </th>
+						<th><a href="del.php?id=<?=$row['id']?>">Delete</a></th>
 					</tr>
 						
-					<?php endwhile ?>	
+				<?php endwhile ?>	
 			<?php endif ?>
 		</tbody>
 	</table>
