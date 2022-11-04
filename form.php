@@ -18,9 +18,10 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     $url = explode('/',$_POST['url']);
     $data['icon']='https://'.$url[2].'/favicon.ico';
 
-	$conn = new mysqli("localhost","pu","url","zero");
+    $conn = new mysqli("localhost","pu","url","zero");
+
 	$result = $conn->query('SELECT id from vosco where url = "'.$_POST['url'].'"');
-	if(!$result->num_rows){
+	if(!$result->num_rows && filter_var($_POST['url'], FILTER_VALIDATE_URL)){
 		$result = $conn->query('INSERT INTO `vosco`(`url`, `title`, `icon`) VALUES  ("'.$_POST['url'].'","'.$data['title'].'","'.$data['icon'].'")');
 	}
 	echo json_encode($data);
@@ -52,6 +53,9 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="form.php">Form</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="del.php">Reset</a>
       </li>
     </ul>
 
